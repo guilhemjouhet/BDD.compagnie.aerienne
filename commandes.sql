@@ -1,0 +1,10 @@
+use mydb;
+select * from appareils;
+insert into appareils (immatriculation,type) values ('1','A320');
+insert into liaison (depart,arrivee,villedepart,villearrivee,idliaison) values ('CDG','MEX','Paris','Mexico','10');
+insert into Vol (idvol,periodedebut,periodefin,horairedepart,horairearrivee,idliaison,immatriculation) values ('2','2001-01-01','2002-01-01','10:00:00','11:00:00','10','1');
+select * from appareils;
+select * from vol;
+select * from liaison;
+select * from (appareils join vol join liaison);
+DELETE FROM vol WHERE idvol = 1;
