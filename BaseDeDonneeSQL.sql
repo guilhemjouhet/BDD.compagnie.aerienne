@@ -153,9 +153,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`personnel sol`
+-- Table `mydb`.`personnelsol`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`personnel sol` (
+CREATE TABLE IF NOT EXISTS `mydb`.`personnelsol` (
   `Numerosecuritesociale` INT(11) NOT NULL,
   `nom` VARCHAR(20) NOT NULL,
   `prenom` VARCHAR(20) NOT NULL,
@@ -189,6 +189,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pilotes` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE USER 'sqluser' IDENTIFIED BY 'sqluser';
+
+GRANT ALL ON `mydb`.* TO 'sqluser';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
