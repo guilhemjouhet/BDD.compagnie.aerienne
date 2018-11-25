@@ -10,17 +10,17 @@ insert into appareils (immatriculation,type) values ('25','B720');
 insert into appareils (immatriculation,type) values ('26','A320');
 
 #on peuple les billets
-insert into billets (numerobillet,dateemission,prix) values ('101','2018-10-20');
-insert into billets (numerobillet,dateemission,prix) values ('102','2018-10-20');
-insert into billets (numerobillet,dateemission,prix) values ('103','2018-10-20');
-insert into billets (numerobillet,dateemission,prix) values ('104','2018-10-20');
+insert into billets (numerobillet,dateemission,prix) values ('2566','2018-10-20','100');
+insert into billets (numerobillet,dateemission,prix) values ('2567','2018-10-20','100');
+insert into billets (numerobillet,dateemission,prix) values ('2568','2018-10-20','100');
+insert into billets (numerobillet,dateemission,prix) values ('2569','2018-10-20','200');
 
 #on peuple les departs
-insert into depart (idvol,datedepart,nbplacelibres,nbplacesoccupees) values ('1','2018-10-20','200','4');
+insert into depart (idvol,datedepart,nbplaceslibres,nbplacesoccupees) values ('1','2018-10-20','200','4');
 
 #on peuple les équipages
-insert into equipage (numerosecuritesociale,nom,prenom,adresse,salaire,fonction,heuresvol,idvol,datedepart) values ('1000','Deubaze','Raymond','36 av guy de collongues 69130 ecully','2000','Chef de cabine','3000','1','2018-10-20');
-insert into equipage (numerosecuritesociale,nom,prenom,adresse,salaire,fonction,heuresvol,idvol,datedepart) values ('10053','Burck','Lionel','51 ch des mouilles 69130 ecully','1500','Stewart','5000','1','2018-10-20');
+insert into equipage (numerosecuritesociale,nom,prenom,adresse,salaire,fonction,heuresvol) values ('1000','Deubaze','Raymond','36 av guy de collongues 69130 ecully','2000','Chef de cabine','3000');
+insert into equipage (numerosecuritesociale,nom,prenom,adresse,salaire,fonction,heuresvol) values ('10053','Burck','Lionel','51 ch des mouilles 69130 ecully','1500','Stewart','5000');
 
 #on peuple les liaisons
 insert into liaison (depart,arrivee,villedepart,villearrivee,idliaison) values ('CDG','LAX','Paris','Los Angeles','101');
@@ -32,16 +32,16 @@ insert into passagers (idpassager, nom,prenom,adresse) values ('003','Charles','
 insert into passagers (idpassager, nom,prenom,adresse) values ('004','Charles','Eleanor','Charrière Blanche 69130 Ecully');
 
 #on peuple les pilotes
-insert into pilotes (numerosecuritesociale,nom,prenom,adresse,salaire,licence,heuresvol,idvol,datedepart) values ('999','Lamericain','John','Avenue des champs elysees','15000','152648','13000','1','2018-10-20');
+insert into pilotes (numerosecuritesociale,nom,prenom,adresse,salaire,licence,heuresvol) values ('999','Lamericain','John','Avenue des champs elysees','15000','152648','13000');
 
 #on peuple les reservations
-insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('001','2568','1','2018-10-20');
-insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('002','2568','1','2018-10-20');
+insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('001','2566','1','2018-10-20');
+insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('002','2567','1','2018-10-20');
 insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('003','2568','1','2018-10-20');
-insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('004','2568','1','2018-10-20');
+insert into reservation (idpassager, numerobillet,idvol,datedepart) values ('004','2569','1','2018-10-20');
 
 #on peuple les vols
-insert into vol (idvol,periodedebut,periodefin,horairedepart,horairearrivee,idliaison,immatriculation) values ('1','2017-01-20','2020-12-25','1900-01-01 20:00:00','1900-01-01 04:00:00','4');
+insert into vol (idvol,periodedebut,periodefin,horairedepart,horairearrivee,idliaison,immatriculation) values ('1','2017-01-20','2020-12-25','1900-01-01 20:00:00','1900-01-01 04:00:00','4','23');
 
 
 #select * from appareils;

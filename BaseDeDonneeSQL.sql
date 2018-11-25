@@ -103,35 +103,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`equipage` (
   `salaire` FLOAT NOT NULL,
   `fonction` VARCHAR(20) NOT NULL,
   `heuresvol` FLOAT NULL DEFAULT NULL,
-  `idvol` INT(11) NULL DEFAULT NULL,
-  `datedepart` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`numerosecuritesociale`),
-  UNIQUE INDEX `Numéro de Sécurité Sociale_UNIQUE` (`numerosecuritesociale` ASC) VISIBLE,
-  INDEX `fk_Equipage_Depart1_idx` (`idvol` ASC, `datedepart` ASC) VISIBLE,
-  CONSTRAINT `fk_Equipage_Depart1`
-    FOREIGN KEY (`idvol` , `datedepart`)
-    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`reservation`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`reservation` (
-  `idpassager` INT(11) NOT NULL,
-  `numerobillet` INT(11) NOT NULL,
-  `idvol` INT(11) NULL DEFAULT NULL,
-  `datedepart` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`idpassager`, `numerobillet`),
-  INDEX `fk_Reservation_Billets1_idx` (`numerobillet` ASC) VISIBLE,
-  INDEX `fk_Reservation_Depart1_idx` (`idvol` ASC, `datedepart` ASC) VISIBLE,
-  CONSTRAINT `fk_Reservation_Billets1`
-    FOREIGN KEY (`numerobillet`)
-    REFERENCES `mydb`.`billets` (`numerobillet`),
-  CONSTRAINT `fk_Reservation_Depart1`
-    FOREIGN KEY (`idvol` , `datedepart`)
-    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`))
+  UNIQUE INDEX `Numéro de Sécurité Sociale_UNIQUE` (`numerosecuritesociale` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -140,22 +113,20 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `mydb`.`passagers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`passagers` (
-  `idpassager` INT(11) NOT NULL,
+  `idpassager` INT NOT NULL,
   `nom` VARCHAR(45) NULL DEFAULT NULL,
   `prenom` VARCHAR(45) NULL DEFAULT NULL,
   `adresse` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`idpassager`),
-  CONSTRAINT `fk_Passagers_Reservation1`
-    FOREIGN KEY (`idpassager`)
-    REFERENCES `mydb`.`reservation` (`idpassager`))
+  UNIQUE INDEX `idpassager_UNIQUE` (`idpassager` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`personnelsol`
+-- Table `mydb`.`personnel sol`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`personnelsol` (
+CREATE TABLE IF NOT EXISTS `mydb`.`personnel_sol` (
   `Numerosecuritesociale` INT(11) NOT NULL,
   `nom` VARCHAR(20) NOT NULL,
   `prenom` VARCHAR(20) NOT NULL,
@@ -178,20 +149,86 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pilotes` (
   `salaire` FLOAT NOT NULL,
   `licence` INT(11) NOT NULL,
   `heuresvol` FLOAT NULL DEFAULT NULL,
-  `idvol` INT(11) NULL DEFAULT NULL,
-  `datedepart` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`Numerosecuritesociale`),
-  UNIQUE INDEX `Numéro de Sécurité Sociale_UNIQUE` (`Numerosecuritesociale` ASC) VISIBLE,
-  INDEX `fk_Pilotes_Depart1_idx` (`idvol` ASC, `datedepart` ASC) VISIBLE,
-  CONSTRAINT `fk_Pilotes_Depart1`
-    FOREIGN KEY (`idvol` , `datedepart`)
-    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`))
+  UNIQUE INDEX `Numéro de Sécurité Sociale_UNIQUE` (`Numerosecuritesociale` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE USER 'sqluser' IDENTIFIED BY 'sqluser';
 
-GRANT ALL ON `mydb`.* TO 'sqluser';
+-- -----------------------------------------------------
+-- Table `mydb`.`reservation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`reservation` (
+  `numerobillet` INT(11) NOT NULL,
+  `idpassager` INT NOT NULL,
+  `idvol` INT(11) NOT NULL,
+  `datedepart` DATE NOT NULL,
+  PRIMARY KEY (`numerobillet`, `idpassager`, `idvol`, `datedepart`),
+  INDEX `fk_Reservation_Billets1_idx` (`numerobillet` ASC) VISIBLE,
+  INDEX `fk_Reservation_Depart1_idx` (`idvol` ASC, `datedepart` ASC) VISIBLE,
+  INDEX `fk_reservation_passagers1_idx` (`idpassager` ASC) VISIBLE,
+  CONSTRAINT `fk_Reservation_Billets1`
+    FOREIGN KEY (`numerobillet`)
+    REFERENCES `mydb`.`billets` (`numerobillet`),
+  CONSTRAINT `fk_Reservation_Depart1`
+    FOREIGN KEY (`idvol` , `datedepart`)
+    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`),
+  CONSTRAINT `fk_reservation_passagers1`
+    FOREIGN KEY (`idpassager`)
+    REFERENCES `mydb`.`passagers` (`idpassager`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Dirige`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Dirige` (
+  `pilotes_Numerosecuritesociale` INT(11) NOT NULL,
+  `depart_idvol` INT(11) NOT NULL,
+  `depart_datedepart` DATE NOT NULL,
+  PRIMARY KEY (`pilotes_Numerosecuritesociale`, `depart_idvol`, `depart_datedepart`),
+  INDEX `fk_pilotes_has_depart_depart1_idx` (`depart_idvol` ASC, `depart_datedepart` ASC) VISIBLE,
+  INDEX `fk_pilotes_has_depart_pilotes1_idx` (`pilotes_Numerosecuritesociale` ASC) VISIBLE,
+  CONSTRAINT `fk_pilotes_has_depart_pilotes1`
+    FOREIGN KEY (`pilotes_Numerosecuritesociale`)
+    REFERENCES `mydb`.`pilotes` (`Numerosecuritesociale`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pilotes_has_depart_depart1`
+    FOREIGN KEY (`depart_idvol` , `depart_datedepart`)
+    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Travaille`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Travaille` (
+  `depart_idvol` INT(11) NOT NULL,
+  `depart_datedepart` DATE NOT NULL,
+  `equipage_numerosecuritesociale` INT(11) NOT NULL,
+  PRIMARY KEY (`depart_idvol`, `depart_datedepart`, `equipage_numerosecuritesociale`),
+  INDEX `fk_depart_has_equipage_equipage1_idx` (`equipage_numerosecuritesociale` ASC) VISIBLE,
+  INDEX `fk_depart_has_equipage_depart1_idx` (`depart_idvol` ASC, `depart_datedepart` ASC) VISIBLE,
+  CONSTRAINT `fk_depart_has_equipage_depart1`
+    FOREIGN KEY (`depart_idvol` , `depart_datedepart`)
+    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_depart_has_equipage_equipage1`
+    FOREIGN KEY (`equipage_numerosecuritesociale`)
+    REFERENCES `mydb`.`equipage` (`numerosecuritesociale`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
