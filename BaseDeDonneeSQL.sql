@@ -169,14 +169,18 @@ CREATE TABLE IF NOT EXISTS `mydb`.`reservation` (
   INDEX `fk_reservation_passagers1_idx` (`idpassager` ASC) VISIBLE,
   CONSTRAINT `fk_Reservation_Billets1`
     FOREIGN KEY (`numerobillet`)
-    REFERENCES `mydb`.`billets` (`numerobillet`),
+    REFERENCES `mydb`.`billets` (`numerobillet`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reservation_Depart1`
     FOREIGN KEY (`idvol` , `datedepart`)
-    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`),
+    REFERENCES `mydb`.`depart` (`idvol` , `datedepart`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_reservation_passagers1`
     FOREIGN KEY (`idpassager`)
     REFERENCES `mydb`.`passagers` (`idpassager`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -195,12 +199,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Dirige` (
   CONSTRAINT `fk_pilotes_has_depart_pilotes1`
     FOREIGN KEY (`pilotes_Numerosecuritesociale`)
     REFERENCES `mydb`.`pilotes` (`Numerosecuritesociale`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pilotes_has_depart_depart1`
     FOREIGN KEY (`depart_idvol` , `depart_datedepart`)
     REFERENCES `mydb`.`depart` (`idvol` , `datedepart`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -219,12 +223,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Travaille` (
   CONSTRAINT `fk_depart_has_equipage_depart1`
     FOREIGN KEY (`depart_idvol` , `depart_datedepart`)
     REFERENCES `mydb`.`depart` (`idvol` , `datedepart`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_depart_has_equipage_equipage1`
     FOREIGN KEY (`equipage_numerosecuritesociale`)
     REFERENCES `mydb`.`equipage` (`numerosecuritesociale`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
