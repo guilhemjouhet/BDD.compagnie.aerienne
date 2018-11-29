@@ -7,3 +7,5 @@ Une interface graphique permet d'intéragir avec cette base de donnée.
 -> MySQL Suite à cette adresse : https://dev.mysql.com/downloads/installer/ (installer à minima MySQL Workbench, Editor et Server)
 ## Instructions d'installation et démarrage
 -> Un tutoriel est disponible ICI
+## Contact
+Pour toute remarque ou tout problème lié à l'installation du projet sur votre plateforme, veuillez prendre contact directement avec les développeurs ou via l'onglet "Issues", nous y répondrons le plus rapidement possible.
